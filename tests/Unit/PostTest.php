@@ -18,20 +18,21 @@ class PostTest extends TestCase
     public function create()
     {
 
-        factory(User::class)->create([
+        $user = factory(User::class)->create([
             'id' => 1,
             'name' => 'test',
             'email' => 'test@example.com'
         ]);
 
-
-        factory(Post::class)->create([
-            'user_id' => 1
+        $user->posts()->create([
+            'title' => 'this is test',
+            'content' => 'this is test content'
         ]);
 
-        $this->assertDatabaseHas('posts', [
-            'user_id' => 1
-        ]);
+        $post = $user->posts()->first();
+
+        $this->assertSame($post->title, 'this is test');
+        $this->assertSame($post->content, 'this is test content');
 
     }
 }

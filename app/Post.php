@@ -9,6 +9,10 @@ class Post extends Model
 {
 
     public $incrementing = false;
+    protected $fillable = [
+        'title',
+        'content'
+    ];
 
     protected static function boot()
     {
