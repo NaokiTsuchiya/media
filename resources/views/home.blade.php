@@ -18,7 +18,8 @@
         @forelse($posts as $post)
             <div class="card">
                 <div class="card-body">
-                    <h4 class="card-title">{{ $post->title }}</h4>
+                    <h4 class="card-title"><a
+                            href="{{ url('/'. $post->user_id . '/posts/' . $post->id) }}">{{ $post->title }}</a></h4>
                     <div class="card-subtitle">
                         <small class="text-right font-weight-light">posted at {{ $post->created_at }}</small>
                     </div>

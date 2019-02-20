@@ -29,6 +29,9 @@ class PostTest extends DuskTestCase
                     ->press('投稿')
                 ->assertPathIs('/home')
                 ->assertSee('this is title')
+                ->assertSee('this is test post.')
+                ->clickLink('this is title')
+                ->assertSee('this is title')
                 ->assertSee('this is test post.');
         });
     }

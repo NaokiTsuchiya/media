@@ -21,6 +21,11 @@ class Post extends Model
         static::creating(function ($model) {
             $model->id = hex2bin(Uuid::uuid1()->getHex() . bin2hex(random_bytes(2)));
         });
+
+        static::retrieved(function ($model) {
+            $model->id = bin2hex($model->id);
+        });
+
     }
 
 }

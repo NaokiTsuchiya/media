@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\PostRequest;
+use App\Post;
+use App\User;
 
 
 class PostController extends Controller
@@ -37,6 +39,20 @@ class PostController extends Controller
         ]);
 
         return redirect('/home');
+    }
+
+    /**
+     * @param User $user
+     * @param string $post_id
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
+    public function show(User $user, string $post_id)
+    {
+
+        $post = Post::find(hex2bin($post_id));
+
+        return view('post_view', compact('user', 'post'));
+
     }
 
 }
