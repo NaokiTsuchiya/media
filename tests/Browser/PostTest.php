@@ -3,9 +3,9 @@
 namespace Tests\Browser;
 
 use App\User;
-use Tests\DuskTestCase;
-use Laravel\Dusk\Browser;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
+use Laravel\Dusk\Browser;
+use Tests\DuskTestCase;
 
 class PostTest extends DuskTestCase
 {
@@ -27,7 +27,10 @@ class PostTest extends DuskTestCase
                     ->type('title', 'this is title')
                     ->type('content', 'this is test post.')
                     ->press('投稿')
-                    ->assertPathIs('/home');
+                ->assertPathIs('/home')
+                ->assertSee('this is title')
+                ->assertSee('this is test post.');
         });
     }
+
 }
