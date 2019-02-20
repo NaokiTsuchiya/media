@@ -20,7 +20,7 @@ class PostController extends Controller
      */
     public function index()
     {
-        return view('post');
+        return view('post.new');
     }
 
     /**
@@ -51,7 +51,7 @@ class PostController extends Controller
 
         $post = Post::find(hex2bin($post_id));
 
-        return view('post_view', compact('user', 'post'));
+        return view('post.show', compact('user', 'post'));
 
     }
 
