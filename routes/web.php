@@ -19,5 +19,7 @@ Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
 Route::get('post', 'PostController@index')->name('post');
-Route::post('post', 'PostController@store');
+Route::post('post', 'PostController@store')->name('post.store');
 Route::get('/{user}/posts/{post_id}', 'PostController@show');
+Route::get('/posts/{post_id}/edit', 'PostController@edit')->name('post.edit');
+Route::post('/posts/{post_id}/update', 'PostController@update')->name('post.update');
