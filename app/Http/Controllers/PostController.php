@@ -95,4 +95,23 @@ class PostController extends Controller
 
     }
 
+    /**
+     * @param string $post_id
+     * @return \Illuminate\Contracts\Routing\ResponseFactory|\Illuminate\Http\RedirectResponse|\Illuminate\Http\Response|\Illuminate\Routing\Redirector
+     */
+    public function delete(string $post_id)
+    {
+        $post = Post::find(hex2bin($post_id));
+        $user_id = Auth::id();
+
+        if ($post->user_id !== $user_id) {
+            return response('無効なURLです', '404');
+        }
+
+        $post->delete();
+
+        return redirect('/home');
+
+    }
+
 }
