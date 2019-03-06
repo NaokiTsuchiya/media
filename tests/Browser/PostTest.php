@@ -65,4 +65,35 @@ class PostTest extends DuskTestCase
         });
     }
 
+
+    /**
+     * @return void
+     * @throws \Throwable
+     */
+    public function testDeletePost(): void
+    {
+        factory(User::class)
+            ->create()
+            ->posts()
+            ->create([
+                'title' => 'test',
+                'content' => 'this is test post.'
+            ]);
+
+        $this->browse(function (Browser $browser) {
+            $browser
+                ->loginAs(User::find(1))
+                ->visit('/home')
+                ->assertSee('test')
+                ->clickLink('test')
+                ->assertSee('test')
+                ->assertSee('this is test post.')
+                ->assertSee('削除')
+                ->press('削除')
+                ->assertPathIs('/home')
+                ->assertDontSee('test')
+                ->assertDontSee('content is changed');
+        });
+    }
+
 }
