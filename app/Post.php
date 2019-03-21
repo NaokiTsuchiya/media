@@ -3,7 +3,7 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
-use Ramsey\Uuid\Uuid;
+use Media\Post\Domain\PostId;
 
 class Post extends Model
 {
@@ -19,11 +19,11 @@ class Post extends Model
         parent::boot();
 
         static::creating(function ($model) {
-            $model->id = hex2bin(Uuid::uuid1()->getHex() . bin2hex(random_bytes(2)));
+            $model->id = (new PostId())->getValue();
         });
 
         static::retrieved(function ($model) {
-            $model->id = bin2hex($model->id);
+            $model->id = (new PostId($model->id))->getValue();
         });
 
     }

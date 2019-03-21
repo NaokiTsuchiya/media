@@ -6,6 +6,7 @@ use App\Http\Requests\PostRequest;
 use App\Post;
 use App\User;
 use Illuminate\Support\Facades\Auth;
+use Media\Post\Domain\PostId;
 
 
 class PostController extends Controller
@@ -50,7 +51,7 @@ class PostController extends Controller
     public function show(User $user, string $post_id)
     {
 
-        $post = Post::find(hex2bin($post_id));
+        $post = Post::find((new PostId($post_id))->getValue());
 
         return view('post.show', compact('user', 'post'));
 
@@ -63,7 +64,7 @@ class PostController extends Controller
     public function edit(string $post_id)
     {
         $user_id = Auth::id();
-        $post = Post::find(hex2bin($post_id));
+        $post = Post::find((new PostId($post_id))->getValue());
 
         if ($user_id !== $post->user_id) {
             return response('無効なURLです', 404);
@@ -81,7 +82,7 @@ class PostController extends Controller
     public function update(string $post_id, PostRequest $request)
     {
 
-        $post = Post::find(hex2bin($post_id));
+        $post = Post::find((new PostId($post_id))->getValue());
 
         if ($post->user_id !== $request->user()->id) {
             return response('無効なURLです', '404');
@@ -101,7 +102,7 @@ class PostController extends Controller
      */
     public function delete(string $post_id)
     {
-        $post = Post::find(hex2bin($post_id));
+        $post = Post::find((new PostId($post_id))->getValue());
         $user_id = Auth::id();
 
         if ($post->user_id !== $user_id) {
