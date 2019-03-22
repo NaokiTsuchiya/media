@@ -62,6 +62,7 @@ class PostTest extends DuskTestCase
                 ->type('title', 'title is changed')
                 ->type('content', 'content is changed')
                 ->press('投稿')
+                ->assertPathIs('/home')
                 ->assertSee('title is changed')
                 ->assertSee('content is changed');
         });
