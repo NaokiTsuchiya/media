@@ -23,10 +23,10 @@ class PostTest extends DuskTestCase
 
         $this->browse(function (Browser $browser) {
             $browser->loginAs(User::find(1))
-                    ->visit('/post')
-                    ->type('title', 'this is title')
-                    ->type('content', 'this is test post.')
-                    ->press('投稿')
+                ->visit('/post')
+                ->type('title', 'this is title')
+                ->type('content', 'this is test post.')
+                ->press('投稿')
                 ->assertPathIs('/home')
                 ->assertSee('this is title')
                 ->assertSee('this is test post.');
@@ -57,6 +57,8 @@ class PostTest extends DuskTestCase
                 ->assertSee('this is test post.')
                 ->assertSee('編集')
                 ->clickLink('編集')
+                ->assertInputValue('title', 'test')
+                ->assertInputValue('content', 'this is test post.')
                 ->type('title', 'title is changed')
                 ->type('content', 'content is changed')
                 ->press('投稿')
