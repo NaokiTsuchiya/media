@@ -22,6 +22,10 @@ class Post extends Model
             $model->id = (new PostId())->getValue();
         });
 
+        static::updating(function ($model) {
+            $model->id = (new PostId($model->id))->getValue();
+        });
+
         static::retrieved(function ($model) {
             $model->id = (new PostId($model->id))->getValue();
         });
