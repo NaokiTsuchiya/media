@@ -8,6 +8,7 @@
                     'post.form',
                     [
                         'action' => route('post.update', $post->id),
+                        'errors' => $errors,
                         'post' => $post
                     ]
                  )

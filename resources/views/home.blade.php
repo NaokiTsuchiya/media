@@ -2,28 +2,24 @@
 
 @section('content')
 <div class="container">
-    <div class="row justify-content-center p-3">
-        <div class="col-md-8">
-            @if (session('status'))
-                <div class="alert alert-success" role="alert">
-                    {{ session('status') }}
-                </div>
-            @endif
-            <a class="btn btn-primary" href="{{ route('post.new') }}" role="button">post</a>
+    @if (session('status'))
+        <div class="alert alert-success" role="alert">
+            {{ session('status') }}
         </div>
-    </div>
-
-    <div class="p-3">
-        <h3>Your post</h3>
+    @endif
+    <div class="list-group">
+        <h3>Your posts</h3>
         @forelse($posts as $post)
-            <div class="card">
-                <div class="card-body">
-                    <h4 class="card-title"><a
-                            href="{{ url('/'. $post->user_id . '/posts/' . $post->id) }}">{{ $post->title }}</a></h4>
-                    <div class="card-subtitle">
-                        <small class="text-right font-weight-light">posted at {{ $post->created_at }}</small>
+            <div class="list-group-item">
+                <div class="list-item-header d-flex align-items-end">
+                    <h4 class="mb-0 mr-5 list-item-title">
+                        <a href="{{ url('/'. $post->user_id . '/posts/' . $post->id) }}">
+                            {{ $post->title }}
+                        </a>
+                    </h4>
+                    <div class="list-item-dateTime">
+                        posted at {{ $post->created_at }}
                     </div>
-                    <p class="card-text">{{ $post->content }}</p>
                 </div>
             </div>
         @empty
