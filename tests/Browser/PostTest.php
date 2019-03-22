@@ -28,8 +28,7 @@ class PostTest extends DuskTestCase
                 ->type('content', 'this is test post.')
                 ->press('投稿')
                 ->assertPathIs('/home')
-                ->assertSee('this is title')
-                ->assertSee('this is test post.');
+                ->assertSee('this is title');
         });
     }
 
@@ -63,8 +62,7 @@ class PostTest extends DuskTestCase
                 ->type('content', 'content is changed')
                 ->press('投稿')
                 ->assertPathIs('/home')
-                ->assertSee('title is changed')
-                ->assertSee('content is changed');
+                ->assertSee('title is changed');
         });
     }
 
@@ -94,8 +92,7 @@ class PostTest extends DuskTestCase
                 ->assertSee('削除')
                 ->press('削除')
                 ->assertPathIs('/home')
-                ->assertDontSee('test')
-                ->assertDontSee('content is changed');
+                ->assertDontSee('test');
         });
     }
 
