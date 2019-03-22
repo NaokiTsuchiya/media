@@ -50,7 +50,6 @@ class PostController extends Controller
      */
     public function show(User $user, string $post_id)
     {
-
         $post = Post::find((new PostId($post_id))->getValue());
 
         return view('post.show', compact('user', 'post'));
@@ -62,11 +61,10 @@ class PostController extends Controller
      */
     public function edit(string $post_id)
     {
-        $user_id = Auth::id();
         $post = Post::find((new PostId($post_id))->getValue());
 
-        if ($user_id !== $post->user_id) {
-            return response('無効なURLです', 404);
+        if (!$this->compareAuthUserIdWith($post->user_id)) {
+            return redirect('/home');
         }
 
         return view('post.edit', compact('post'));
@@ -82,13 +80,11 @@ class PostController extends Controller
 
         $post = Post::find((new PostId($post_id))->getValue());
 
-        if ($post->user_id !== $request->user()->id) {
-            return response('無効なURLです', '404');
+        if ($this->compareAuthUserIdWith($post->user_id)) {
+            $post->title = $request->input('title');
+            $post->content = $request->input('content');
+            $post->save();
         }
-
-        $post->title = $request->input('title');
-        $post->content = $request->input('content');
-        $post->save();
 
         return redirect('/home');
     }
@@ -100,15 +96,21 @@ class PostController extends Controller
     public function delete(string $post_id)
     {
         $post = Post::find((new PostId($post_id))->getValue());
-        $user_id = Auth::id();
 
-        if ($post->user_id !== $user_id) {
-            return response('無効なURLです', '404');
+        if ($this->compareAuthUserIdWith($post->user_id)) {
+            $post->delete();
         }
 
-        $post->delete();
-
         return redirect('/home');
+    }
+
+    /**
+     * @param int $id
+     * @return bool
+     */
+    private function compareAuthUserIdWith(int $id): bool
+    {
+        return Auth::id() === $id;
     }
 
 }

@@ -17,10 +17,10 @@ Route::get('/', function () {
 
 Auth::routes();
 
-Route::get('/home', 'HomeController@index')->name('home');
+Route::get('home', 'HomeController@index')->name('home');
 Route::get('post', 'PostController@new')->name('post.new');
 Route::post('post', 'PostController@create')->name('post.create');
-Route::get('/{user}/posts/{post_id}', 'PostController@show');
-Route::get('/posts/{post_id}/edit', 'PostController@edit')->name('post.edit');
-Route::post('/posts/{post_id}/update', 'PostController@update')->name('post.update');
-Route::post('/posts/{post_id}/delete', 'PostController@delete')->name('post.delete');
+Route::get('{user}/posts/{post_id}', 'PostController@show');
+Route::get('posts/{post_id}/edit', 'PostController@edit')->name('post.edit');
+Route::post('posts/{post_id}/update', 'PostController@update')->name('post.update');
+Route::post('posts/{post_id}/delete', 'PostController@delete')->name('post.delete');
