@@ -25,7 +25,6 @@ class Post extends Model
         static::retrieved(function ($model) {
             $model->id = (new PostId($model->id))->getValue();
         });
-
     }
 
 }

@@ -20,7 +20,7 @@ class PostController extends Controller
     /**
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
-    public function index()
+    public function new()
     {
         return view('post.new');
     }
@@ -29,7 +29,7 @@ class PostController extends Controller
      * @param PostRequest $request
      * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
      */
-    public function store(PostRequest $request)
+    public function create(PostRequest $request)
     {
         $title = $request->input('title');
         $content = $request->input('content');
@@ -54,7 +54,6 @@ class PostController extends Controller
         $post = Post::find((new PostId($post_id))->getValue());
 
         return view('post.show', compact('user', 'post'));
-
     }
 
     /**
@@ -71,7 +70,6 @@ class PostController extends Controller
         }
 
         return view('post.edit', compact('post'));
-
     }
 
     /**
@@ -93,7 +91,6 @@ class PostController extends Controller
         $post->save();
 
         return redirect('/home');
-
     }
 
     /**
@@ -112,7 +109,6 @@ class PostController extends Controller
         $post->delete();
 
         return redirect('/home');
-
     }
 
 }
