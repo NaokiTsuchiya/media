@@ -7,9 +7,6 @@
                 @component('post.form', ['action' => route('post.update', $post->id)])
                 @endcomponent
             </div>
-
         </div>
-
     </div>
-
 @endsection

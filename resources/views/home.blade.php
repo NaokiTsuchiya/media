@@ -9,7 +9,7 @@
                     {{ session('status') }}
                 </div>
             @endif
-                <a class="btn btn-primary" href="{{ route('post') }}" role="button">post</a>
+            <a class="btn btn-primary" href="{{ route('post.new') }}" role="button">post</a>
         </div>
     </div>
 
