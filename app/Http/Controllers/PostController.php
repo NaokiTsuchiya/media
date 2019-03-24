@@ -12,9 +12,13 @@ use Media\Post\Domain\PostId;
 class PostController extends Controller
 {
 
-    public function __construct()
+    /**
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
+    public function index()
     {
-        $this->middleware('auth');
+        $posts = Post::orderBy('created_at', 'desc')->simplePaginate(10);
+        return view('post.index', compact('posts'));
     }
 
     /**

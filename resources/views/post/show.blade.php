@@ -7,7 +7,7 @@
                 <div class="d-flex align-items-end">
                     <div class="mr-3 font-weight-bold lead">{{ $user->name }}</div>
                     <div class="mr-3 align-middle">Posted at:{{$post->created_at}}</div>
-                    @if(Auth::user()->id === $user->id)
+                    @if(Auth::id() === $user->id)
                         <div class="ml-auto">
                             <div class="row justify-content-end">
                                 <a class="btn btn-primary col-auto" href="{{route('post.edit', $post->id)}}"
