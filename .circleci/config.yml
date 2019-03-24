@@ -17,7 +17,7 @@ jobs:
       - APP_ENV: testing
       - APP_KEY:
       - DB_CONNECTION: mysql
-      - DATABASE: circle_test
+      - DB_DATABASE: circle_test
       - MYSQL_ALLOW_EMPTY_PASSWORD: true
 
     steps:
@@ -50,7 +50,7 @@ jobs:
             - node_modules
 
       # prepare the database
-      - run: php artisan migrate --env=testing --database=circle_test --force
+      - run: php artisan migrate --force
 
       # run tests with phpunit or codecept
       - run: ./vendor/bin/phpunit
