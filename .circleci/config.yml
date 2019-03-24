@@ -24,6 +24,13 @@ jobs:
       - checkout
 
       - run: sudo docker-php-ext-install pdo_mysql
+      - run:
+          name: Install Chrome
+          command: |
+            wget -q -O - https://dl.google.com/linux/linux_signing_key.pub | sudo apt-key add -
+            sudo sh -c 'echo "deb [arch=amd64] http://dl.google.com/linux/chrome/deb/ stable main" >> /etc/apt/sources.list.d/google.list'
+            sudo apt-get update || sudo apt-get update
+            sudo apt-get install google-chrome-stable
 
       # Download and cache dependencies
       - restore_cache:
@@ -54,3 +61,11 @@ jobs:
 
       # run tests with phpunit or codecept
       - run: ./vendor/bin/phpunit
+      - run: cp .env.dusk.testing .env
+      - run:
+          command: ./vendor/laravel/dusk/bin/chromedriver-linux
+          background: true
+      - run:
+          command: php artisan serve
+          background: true
+      - run: php artisan dusk
