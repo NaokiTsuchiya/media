@@ -7,7 +7,7 @@ jobs:
   build:
     docker:
       # Specify the version you desire here
-      - image: circleci/php:7.2.9-apache-stretch
+      - image: circleci/php:7.2.9-apache-node-browsers
       - image: circleci/mysql:5.7-ram
       #
       # - image: redis:2.8.19
@@ -43,7 +43,7 @@ jobs:
           keys:
             - node-v1-{{ checksum "package.json" }}
             - node-v1-
-      - run: npm install
+      - run: yarn install
       - save_cache:
           key: node-v1-{{ checksum "package.json" }}
           paths:
