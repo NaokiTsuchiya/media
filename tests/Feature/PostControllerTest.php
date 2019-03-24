@@ -93,4 +93,30 @@ class PostControllerTest extends TestCase
             ->assertRedirect($this->redirectPath);
     }
 
+    public function visitWithNoLoggedInUser()
+    {
+
+        $redirectTo = '/login';
+        $postData = [
+            'title' => 'a',
+            'content' => 'a'
+        ];
+
+        $this->get('posts/new')
+            ->assertRedirect('/login')
+            ->get($this->basePath . '/edit')
+            ->assertRedirect($redirectTo)
+            ->post(
+                $this->basePath . '/update',
+                $postData
+            )
+            ->assertRedirect($redirectTo)
+            ->post($this->basePath . '/delete')
+            ->assertRedirect($redirectTo)
+            ->post(
+                $this->basePath . '/create',
+                $postData
+            )
+            ->assertRedirect($redirectTo);
+    }
 }

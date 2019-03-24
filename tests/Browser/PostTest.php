@@ -2,6 +2,7 @@
 
 namespace Tests\Browser;
 
+use App\Post;
 use App\User;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Laravel\Dusk\Browser;
@@ -96,4 +97,30 @@ class PostTest extends DuskTestCase
         });
     }
 
+    /**
+     * @test
+     * @throws \Throwable
+     */
+    public function browseWithNoLoggedinUser()
+    {
+        $user = factory(User::class)->create();
+
+        factory(Post::class, 15)->create([
+            'user_id' => $user->id
+        ]);
+
+        $post = Post::orderBy('created_at', 'desc')->get()->first();
+
+        $targetPath = '/' . $user->id . '/posts/' . $post->id;
+
+        $this->browse(function (Browser $browser) use ($targetPath) {
+            $browser->visit('/')
+                ->assertPresent('.list-group-item')
+                ->assertPresent('.pagination')
+                ->clickLink('test')
+                ->assertSee('test')
+                ->assertSee('this is test post.')
+                ->assertPathIs($targetPath);
+        });
+    }
 }
