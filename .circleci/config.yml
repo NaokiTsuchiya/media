@@ -9,8 +9,7 @@ jobs:
       # Specify the version you desire here
       - image: circleci/php:7.2.9-apache-node-browsers
       - image: circleci/mysql:5.7-ram
-      #
-      # - image: redis:2.8.19
+      - image: redis:5.0.4
 
     environment:
       - APP_DEBUG: false
