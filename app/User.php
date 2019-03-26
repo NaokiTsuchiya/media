@@ -36,4 +36,13 @@ class User extends Authenticatable
     {
         return $this->hasMany(Post::class);
     }
+
+    /**
+     * @param string $post_id
+     * @return bool
+     */
+    public function hasPost(string $post_id): bool
+    {
+        return $this->posts()->find($post_id) !== null;
+    }
 }

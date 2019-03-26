@@ -4,9 +4,11 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\PostRequest;
 use App\Post;
-use App\User;
-use Illuminate\Support\Facades\Auth;
-use Media\Post\Domain\PostId;
+use Media\Post\Application\PostCreateService;
+use Media\Post\Application\PostDeleteService;
+use Media\Post\Application\PostEditService;
+use Media\Post\Application\PostShowService;
+use Media\Post\Application\PostUpdateService;
 
 
 class PostController extends Controller
@@ -31,90 +33,53 @@ class PostController extends Controller
 
     /**
      * @param PostRequest $request
+     * @param PostCreateService $service
      * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
      */
-    public function create(PostRequest $request)
+    public function create(PostRequest $request, PostCreateService $service)
     {
-        $title = $request->input('title');
-        $content = $request->input('content');
-        $user = $request->user();
-
-        $user->posts()->create([
-            'title' => $title,
-            'content' => $content,
-        ]);
-
-        return redirect('/home');
+        return $service->execute($request);
     }
 
     /**
-     * @param User $user
+     * @param int $user_id
      * @param string $post_id
+     * @param PostShowService $service
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
-    public function show(User $user, string $post_id)
+    public function show(int $user_id, string $post_id, PostShowService $service)
     {
-        $post = Post::find((new PostId($post_id))->getValue());
-
-        return view('post.show', compact('user', 'post'));
+        return $service->execute($user_id, $post_id);
     }
 
     /**
      * @param string $post_id
+     * @param PostEditService $service
      * @return \Illuminate\Contracts\Routing\ResponseFactory|\Illuminate\Contracts\View\Factory|\Illuminate\Http\Response|\Illuminate\View\View
      */
-    public function edit(string $post_id)
+    public function edit(string $post_id, PostEditService $service)
     {
-        $post = Post::find((new PostId($post_id))->getValue());
-
-        if (!$this->compareAuthUserIdWith($post->user_id)) {
-            return redirect('/home');
-        }
-
-        return view('post.edit', compact('post'));
+        return $service->execute($post_id);
     }
 
     /**
      * @param string $post_id
      * @param PostRequest $request
+     * @param PostUpdateService $service
      * @return \Illuminate\Contracts\Routing\ResponseFactory|\Illuminate\Http\RedirectResponse|\Illuminate\Http\Response|\Illuminate\Routing\Redirector
      */
-    public function update(string $post_id, PostRequest $request)
+    public function update(string $post_id, PostRequest $request, PostUpdateService $service)
     {
-
-        $post = Post::find((new PostId($post_id))->getValue());
-
-        if ($this->compareAuthUserIdWith($post->user_id)) {
-            $post->title = $request->input('title');
-            $post->content = $request->input('content');
-            $post->save();
-        }
-
-        return redirect('/home');
+        return $service->execute($post_id, $request);
     }
 
     /**
      * @param string $post_id
+     * @param PostDeleteService $service
      * @return \Illuminate\Contracts\Routing\ResponseFactory|\Illuminate\Http\RedirectResponse|\Illuminate\Http\Response|\Illuminate\Routing\Redirector
      */
-    public function delete(string $post_id)
+    public function delete(string $post_id, PostDeleteService $service)
     {
-        $post = Post::find((new PostId($post_id))->getValue());
-
-        if ($this->compareAuthUserIdWith($post->user_id)) {
-            $post->delete();
-        }
-
-        return redirect('/home');
+        return $service->execute($post_id);
     }
-
-    /**
-     * @param int $id
-     * @return bool
-     */
-    private function compareAuthUserIdWith(int $id): bool
-    {
-        return Auth::id() === $id;
-    }
-
 }
