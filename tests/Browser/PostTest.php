@@ -6,6 +6,7 @@ use App\Post;
 use App\User;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Laravel\Dusk\Browser;
+use Media\Post\Domain\PostId;
 use Tests\DuskTestCase;
 
 class PostTest extends DuskTestCase
@@ -43,6 +44,7 @@ class PostTest extends DuskTestCase
             ->create()
             ->posts()
             ->create([
+                'id' => (new PostId())->getValue(),
                 'title' => 'test',
                 'content' => 'this is test post.'
             ]);
@@ -78,6 +80,7 @@ class PostTest extends DuskTestCase
             ->create()
             ->posts()
             ->create([
+                'id' => (new PostId())->getValue(),
                 'title' => 'test',
                 'content' => 'this is test post.'
             ]);

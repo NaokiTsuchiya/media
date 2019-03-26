@@ -4,6 +4,7 @@ namespace Tests\Unit;
 
 use App\Post;
 use App\User;
+use Media\Post\Domain\PostId;
 use Tests\TestCase;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 
@@ -25,6 +26,7 @@ class PostTest extends TestCase
         ]);
 
         $user->posts()->create([
+            'id' => (new PostId())->getValue(),
             'title' => 'this is test',
             'content' => 'this is test content'
         ]);
@@ -33,6 +35,5 @@ class PostTest extends TestCase
 
         $this->assertSame($post->title, 'this is test');
         $this->assertSame($post->content, 'this is test content');
-
     }
 }
