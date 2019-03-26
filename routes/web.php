@@ -15,7 +15,7 @@
 Auth::routes();
 
 Route::get('/', 'PostController@index')->name('post.index');
-Route::get('{user}/posts/{post_id}', 'PostController@show');
+Route::get('{user_id}/posts/{post_id}', 'PostController@show');
 
 Route::get('home', 'HomeController@index')->name('home');
 

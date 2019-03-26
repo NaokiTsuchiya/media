@@ -31,4 +31,21 @@ class Post extends Model
         });
     }
 
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function user(): \Illuminate\Database\Eloquent\Relations\BelongsTo
+    {
+        return $this->belongsTo(User::class);
+    }
+
+    /**
+     * @param int $user_id
+     * @return bool
+     */
+    public function owner(int $user_id): bool
+    {
+        return $this->user->id === $user_id;
+    }
+
 }

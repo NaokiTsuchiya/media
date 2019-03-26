@@ -11,7 +11,7 @@ class PostId
     private $value;
 
     /**
-     * @param string $value
+     * @param string|null $value
      */
     public function __construct(string $value = null)
     {
@@ -41,5 +41,4 @@ class PostId
 
         return bin2hex($this->value);
     }
-
 }
