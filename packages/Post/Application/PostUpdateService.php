@@ -4,11 +4,22 @@ declare(strict_types=1);
 namespace Media\Post\Application;
 
 use App\Http\Requests\PostRequest;
-use App\Post;
 use Media\Post\Domain\PostId;
+use Media\Post\Infrastructure\PostRepository;
 
 class PostUpdateService
 {
+
+    /**
+     * @var PostRepository
+     */
+    private $postRepository;
+
+    public function __construct(PostRepository $postRepository)
+    {
+        $this->postRepository = $postRepository;
+    }
+
     /**
      * @param string $post_id
      * @param PostRequest $request
@@ -16,13 +27,14 @@ class PostUpdateService
      */
     public function execute(string $post_id, PostRequest $request)
     {
-        $post_id = (new PostId($post_id))->getValue();
 
-        if ($request->user()->hasPost($post_id)) {
-            $post = Post::find($post_id);
-            $post->title = $request->input('title');
-            $post->content = $request->input('content');
-            $post->save();
+        if ($request->user()->hasPost((new PostId($post_id))->getValue())) {
+            $this->postRepository->save(
+                new PostId($post_id),
+                $request->input('title'),
+                $request->input('content'),
+                $request->user()->id
+            );
         }
 
         return redirect('/home');

@@ -10,17 +10,15 @@ class Post extends Model
 
     public $incrementing = false;
     protected $fillable = [
+        'id',
         'title',
-        'content'
+        'content',
+        'user_id'
     ];
 
     protected static function boot()
     {
         parent::boot();
-
-        static::creating(function ($model) {
-            $model->id = (new PostId())->getValue();
-        });
 
         static::updating(function ($model) {
             $model->id = (new PostId($model->id))->getValue();
@@ -45,7 +43,7 @@ class Post extends Model
      */
     public function owner(int $user_id): bool
     {
-        return $this->user->id === $user_id;
+        return $this->user_id === $user_id;
     }
 
 }

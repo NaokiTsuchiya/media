@@ -28,6 +28,7 @@ class PostControllerTest extends TestCase
             'name' => 'test',
             'email' => 'test@example.com'
         ])->posts()->create([
+            'id' => (new PostId())->getValue(),
             'title' => 'this is test',
             'content' => 'this is test content'
         ]);
@@ -98,6 +99,7 @@ class PostControllerTest extends TestCase
 
         $redirectTo = '/login';
         $postData = [
+            'id' => (new PostId())->getValue(),
             'title' => 'a',
             'content' => 'a'
         ];
