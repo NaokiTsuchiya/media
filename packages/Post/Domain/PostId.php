@@ -3,7 +3,7 @@ declare(strict_types=1);
 
 namespace Media\Post\Domain;
 
-use Ramsey\Uuid\Uuid;
+use Ulid\Ulid;
 
 class PostId
 {
@@ -15,19 +15,7 @@ class PostId
      */
     public function __construct(string $value = null)
     {
-        $this->value = $value ?? $this->createId();
-    }
-
-    /**
-     * @return string
-     */
-    private function createId(): string
-    {
-        try {
-            return Uuid::uuid1()->getHex() . bin2hex(random_bytes(2));
-        } catch (\Exception $e) {
-            throw new \RuntimeException('Can not create postId');
-        }
+        $this->value = $value ?? Ulid::generate(true);
     }
 
     /**
@@ -35,19 +23,11 @@ class PostId
      */
     public function getValue(): string
     {
-        if (ctype_xdigit($this->value)) {
-            return hex2bin($this->value);
-        }
-
-        return bin2hex($this->value);
+        return (string)$this->value;
     }
 
     public function __toString()
     {
-        if (ctype_xdigit($this->value)) {
-            return (string)$this->value;
-        }
-
-        return bin2hex($this->value);
+        return $this->getValue();
     }
 }
