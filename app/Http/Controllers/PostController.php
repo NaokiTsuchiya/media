@@ -3,10 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\PostRequest;
-use App\Post;
 use Media\Post\Application\PostCreateService;
 use Media\Post\Application\PostDeleteService;
 use Media\Post\Application\PostEditService;
+use Media\Post\Application\PostGetRecentListService;
 use Media\Post\Application\PostShowService;
 use Media\Post\Application\PostUpdateService;
 
@@ -15,12 +15,12 @@ class PostController extends Controller
 {
 
     /**
+     * @param PostGetRecentListService $service
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
-    public function index()
+    public function index(PostGetRecentListService $service)
     {
-        $posts = Post::orderBy('created_at', 'desc')->simplePaginate(10);
-        return view('post.index', compact('posts'));
+        return $service->execute();
     }
 
     /**

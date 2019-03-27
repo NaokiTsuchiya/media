@@ -50,4 +50,13 @@ class PostRepository implements PostRepositoryInterface
             ]
         );
     }
+
+    /**
+     * @param int $size
+     * @return mixed
+     */
+    public function getRecentPostList(int $size)
+    {
+        return EloquentPost::orderBy('created_at', 'desc')->simplePaginate($size);
+    }
 }

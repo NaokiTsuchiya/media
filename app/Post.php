@@ -3,7 +3,6 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
-use Media\Post\Domain\PostId;
 
 class Post extends Model
 {
