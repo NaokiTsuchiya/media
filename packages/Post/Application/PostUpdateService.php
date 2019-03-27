@@ -28,7 +28,7 @@ class PostUpdateService
     public function execute(string $post_id, PostRequest $request)
     {
 
-        if ($request->user()->hasPost((new PostId($post_id))->getValue())) {
+        if ($request->user()->hasPost(new PostId($post_id))) {
             $this->postRepository->save(
                 new PostId($post_id),
                 $request->input('title'),

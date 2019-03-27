@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable;
+use Media\Post\Domain\PostId;
 
 class User extends Authenticatable
 {
@@ -38,11 +39,11 @@ class User extends Authenticatable
     }
 
     /**
-     * @param string $post_id
+     * @param PostId $id
      * @return bool
      */
-    public function hasPost(string $post_id): bool
+    public function hasPost(PostId $id): bool
     {
-        return $this->posts()->find($post_id) !== null;
+        return $this->posts()->find($id->getValue()) !== null;
     }
 }

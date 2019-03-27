@@ -16,19 +16,6 @@ class Post extends Model
         'user_id'
     ];
 
-    protected static function boot()
-    {
-        parent::boot();
-
-        static::updating(function ($model) {
-            $model->id = (new PostId($model->id))->getValue();
-        });
-
-        static::retrieved(function ($model) {
-            $model->id = (new PostId($model->id))->getValue();
-        });
-    }
-
     /**
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
