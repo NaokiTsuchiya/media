@@ -4,6 +4,7 @@ declare(strict_types=1);
 namespace Media\Post\Application;
 
 use App\Http\Requests\PostRequest;
+use Media\Post\Domain\Post;
 use Media\Post\Domain\PostId;
 use Media\Post\Infrastructure\PostRepository;
 
@@ -27,14 +28,15 @@ class PostUpdateService
      */
     public function execute(string $post_id, PostRequest $request)
     {
-
-        if ($request->user()->hasPost(new PostId($post_id))) {
-            $this->postRepository->save(
+        $user = $request->user();
+        if ($user->hasPost(new PostId($post_id))) {
+            $post = new Post(
                 new PostId($post_id),
                 $request->input('title'),
                 $request->input('content'),
-                $request->user()->id
+                $user->id
             );
+            $this->postRepository->save($post);
         }
 
         return redirect('/home');

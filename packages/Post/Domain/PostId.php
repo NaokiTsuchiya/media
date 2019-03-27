@@ -7,7 +7,9 @@ use Ulid\Ulid;
 
 class PostId
 {
-
+    /**
+     * @var string
+     */
     private $value;
 
     /**
@@ -15,7 +17,7 @@ class PostId
      */
     public function __construct(string $value = null)
     {
-        $this->value = $value ?? Ulid::generate(true);
+        $this->value = $value ?? (string)Ulid::generate(true);
     }
 
     /**
@@ -23,9 +25,12 @@ class PostId
      */
     public function getValue(): string
     {
-        return (string)$this->value;
+        return $this->value;
     }
 
+    /**
+     * @return string
+     */
     public function __toString()
     {
         return $this->getValue();
