@@ -29,7 +29,7 @@ class PostEditService
     {
         $post = $this->postRepository->find(new PostId($post_id));
 
-        if ($post->owner(Auth::id())) {
+        if ($post->owned(Auth::user())) {
             return view('post.edit', compact('post'));
         }
 
