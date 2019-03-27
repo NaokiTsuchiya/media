@@ -4,6 +4,7 @@ declare(strict_types=1);
 namespace Media\Post\Application;
 
 use App\Http\Requests\PostRequest;
+use Media\Post\Domain\Post;
 use Media\Post\Domain\PostId;
 use Media\Post\Infrastructure\PostRepository;
 
@@ -29,13 +30,14 @@ class PostCreateService
         $title = $request->input('title');
         $content = $request->input('content');
         $user_id = $request->user()->id;
-
-        $this->postRepository->save(
+        $post = new Post(
             new PostId(),
             $title,
             $content,
             $user_id
         );
+
+        $this->postRepository->save($post);
 
         return redirect('/home');
     }

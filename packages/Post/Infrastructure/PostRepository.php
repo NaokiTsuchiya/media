@@ -3,9 +3,8 @@ declare(strict_types=1);
 
 namespace Media\Post\Infrastructure;
 
-use App\Post;
-use Illuminate\Support\Facades\DB;
-use Media\Post\Domain\Post as DomainPost;
+use App\Post as EloquentPost;
+use Media\Post\Domain\Post;
 use Media\Post\Domain\PostId;
 
 class PostRepository
@@ -16,12 +15,10 @@ class PostRepository
      */
     public function find(PostId $id)
     {
-        $post = DB::table('posts')
-            ->select('id', 'title', 'content', 'user_id', 'created_at', 'updated_at')
-            ->find($id->getValue());
+        $post = EloquentPost::find($id->getValue());
 
-        return new DomainPost(
-            new PostId($post->id),
+        return new Post(
+            $id,
             $post->title,
             $post->content,
             $post->user_id,
@@ -35,23 +32,20 @@ class PostRepository
      */
     public function delete(PostId $id): void
     {
-        Post::destroy($id->getValue());
+        EloquentPost::destroy($id->getValue());
     }
 
     /**
-     * @param PostId $id
-     * @param string $title
-     * @param string $content
-     * @param int $user_id
+     * @param Post $post
      */
-    public function save(PostId $id, string $title, string $content, int $user_id): void
+    public function save(Post $post): void
     {
-        Post::updateOrCreate(
-            ['id' => $id->getValue()],
+        EloquentPost::updateOrCreate(
+            ['id' => $post->getId()],
             [
-                'title' => $title,
-                'content' => $content,
-                'user_id' => $user_id
+                'title' => $post->getTitle(),
+                'content' => $post->getContent(),
+                'user_id' => $post->getUserId()
             ]
         );
     }

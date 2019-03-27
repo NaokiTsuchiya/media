@@ -4,49 +4,50 @@ declare(strict_types=1);
 namespace Media\Post\Domain;
 
 use App\User;
+use Carbon\Carbon;
 
 class Post
 {
     /**
      * @var PostId
      */
-    public $id;
+    private $id;
     /**
      * @var string
      */
-    public $title;
+    private $title;
     /**
      * @var string
      */
-    public $content;
+    private $content;
     /**
      * @var int
      */
-    public $user_id;
+    private $user_id;
     /**
-     * @var string
+     * @var Carbon
      */
-    public $created_at;
+    private $created_at;
     /**
-     * @var string
+     * @var Carbon
      */
-    public $updated_at;
+    private $updated_at;
 
     /**
      * @param PostId $id
      * @param string $title
      * @param string $content
      * @param int $user_id
-     * @param string $created_at
-     * @param string $updated_at
+     * @param Carbon $created_at
+     * @param Carbon $updated_at
      */
     public function __construct(
         PostId $id,
         string $title,
         string $content,
         int $user_id,
-        string $created_at,
-        string $updated_at
+        Carbon $created_at = null,
+        Carbon $updated_at = null
     ) {
         $this->id = $id;
         $this->title = $title;
@@ -63,5 +64,53 @@ class Post
     public function owned(User $user): bool
     {
         return $user->id === $this->user_id;
+    }
+
+    /**
+     * @return PostId
+     */
+    public function getId(): PostId
+    {
+        return $this->id;
+    }
+
+    /**
+     * @return string
+     */
+    public function getTitle(): string
+    {
+        return $this->title;
+    }
+
+    /**
+     * @return string
+     */
+    public function getContent(): string
+    {
+        return $this->content;
+    }
+
+    /**
+     * @return int
+     */
+    public function getUserId(): int
+    {
+        return $this->user_id;
+    }
+
+    /**
+     * @return Carbon
+     */
+    public function getCreatedAt(): Carbon
+    {
+        return $this->created_at;
+    }
+
+    /**
+     * @return Carbon
+     */
+    public function getUpdatedAt(): Carbon
+    {
+        return $this->updated_at;
     }
 }
