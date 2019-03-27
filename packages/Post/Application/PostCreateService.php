@@ -6,17 +6,17 @@ namespace Media\Post\Application;
 use App\Http\Requests\PostRequest;
 use Media\Post\Domain\Post;
 use Media\Post\Domain\PostId;
-use Media\Post\Infrastructure\PostRepository;
+use Media\Post\Domain\PostRepositoryInterface;
 
 class PostCreateService
 {
 
     /**
-     * @var PostRepository
+     * @var PostRepositoryInterface
      */
     private $postRepository;
 
-    public function __construct(PostRepository $postRepository)
+    public function __construct(PostRepositoryInterface $postRepository)
     {
         $this->postRepository = $postRepository;
     }
