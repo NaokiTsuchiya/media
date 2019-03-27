@@ -6,14 +6,15 @@ namespace Media\Post\Infrastructure;
 use App\Post as EloquentPost;
 use Media\Post\Domain\Post;
 use Media\Post\Domain\PostId;
+use Media\Post\Domain\PostRepositoryInterface;
 
-class PostRepository
+class PostRepository implements PostRepositoryInterface
 {
     /**
      * @param PostId $id
-     * @return mixed
+     * @return Post
      */
-    public function find(PostId $id)
+    public function find(PostId $id): Post
     {
         $post = EloquentPost::find($id->getValue());
 
