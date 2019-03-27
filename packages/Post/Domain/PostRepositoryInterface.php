@@ -7,10 +7,10 @@ namespace Media\Post\Domain;
 interface PostRepositoryInterface
 {
     /**
-     * @param PostId $postId
+     * @param PostId $id
      * @return Post
      */
-    public function find(PostId $postId): Post;
+    public function find(PostId $id): Post;
 
     /**
      * @param Post $post
@@ -18,7 +18,13 @@ interface PostRepositoryInterface
     public function save(Post $post): void;
 
     /**
-     * @param PostId $postId
+     * @param PostId $id
      */
-    public function delete(PostId $postId): void;
+    public function delete(PostId $id): void;
+
+    /**
+     * @param int $size
+     * @return mixed
+     */
+    public function getRecentPostList(int $size);
 }
