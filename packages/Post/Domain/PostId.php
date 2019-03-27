@@ -41,4 +41,13 @@ class PostId
 
         return bin2hex($this->value);
     }
+
+    public function __toString()
+    {
+        if (ctype_xdigit($this->value)) {
+            return (string)$this->value;
+        }
+
+        return bin2hex($this->value);
+    }
 }

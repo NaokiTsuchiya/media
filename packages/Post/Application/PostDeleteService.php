@@ -30,7 +30,7 @@ class PostDeleteService
         $post_id = new PostId($post_id);
         $post = $this->postRepository->find($post_id);
 
-        if ($post->owner(Auth::id())) {
+        if ($post->owned(Auth::user())) {
             $this->postRepository->delete($post_id);
         }
 
